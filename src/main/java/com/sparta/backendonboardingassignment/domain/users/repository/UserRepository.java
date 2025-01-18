@@ -1,7 +1,10 @@
 package com.sparta.backendonboardingassignment.domain.users.repository;
 
-import com.sparta.backendonboardingassignment.domain.users.entity.Users;
+import com.sparta.backendonboardingassignment.domain.users.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<Users, Long>{
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long>{
+    Optional<User> findByUserName(String username);
 }
