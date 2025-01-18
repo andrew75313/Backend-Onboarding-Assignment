@@ -30,6 +30,7 @@ public class UserService {
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .password(password)
+                .nickname(requestDto.getNickname())
                 .role(UserRoleEnum.USER)
                 .build();
 
