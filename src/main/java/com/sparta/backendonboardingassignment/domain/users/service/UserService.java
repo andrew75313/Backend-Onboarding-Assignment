@@ -42,22 +42,6 @@ public class UserService {
 
     }
 
-    public SignResponseDto signin(SignRequestDto requestDto) {
-
-        User user = userRepository.findByUsername(requestDto.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저는 존재하지 않습니다."));
-
-
-        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("패스워드가 일치하지 않습니다.");
-        }
-
-        String accessToken = jwtUtil.createAccessToken(user.getUsername(), UserRoleEnum.USER);
-
-        return new SignResponseDto(accessToken);
-
-    }
-
     public Boolean isUserExist(String username) {
 
         final Optional<User> user = userRepository.findByUsername(username);

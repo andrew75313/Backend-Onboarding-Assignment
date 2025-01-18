@@ -3,6 +3,7 @@ package com.sparta.backendonboardingassignment.global.security;
 import com.sparta.backendonboardingassignment.domain.tokens.entity.RefreshToken;
 import com.sparta.backendonboardingassignment.domain.tokens.repository.RefreshTokenRepository;
 import com.sparta.backendonboardingassignment.domain.users.dto.SignRequestDto;
+import com.sparta.backendonboardingassignment.domain.users.dto.SignResponseDto;
 import com.sparta.backendonboardingassignment.domain.users.dto.SignupRequestDto;
 import com.sparta.backendonboardingassignment.domain.users.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +12,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -28,7 +30,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public JwtAuthenticationFilter(JwtUtil jwtUtil, RefreshTokenRepository refreshTokenRepository) {
         this.jwtUtil = jwtUtil;
         this.refreshTokenRepository = refreshTokenRepository;
-        setFilterProcessesUrl("/api/login");
+        setFilterProcessesUrl("/api/sign");
     }
 
     @Override
@@ -54,7 +56,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         User user = ((UserDetailsImpl) authResult.getPrincipal()).getUser();
 
         String accessToken = jwtUtil.createAccessToken(user.getUsername(), user.getRole());
-        response.addHeader(JwtConfig.ACCESS_TOKEN_HEADER, accessToken);
         String refreshToken = jwtUtil.createRefreshToken(user.getUsername());
         response.addHeader(JwtConfig.REFRESH_TOKEN_HEADER, refreshToken);
 
@@ -66,7 +67,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         refreshTokenRepository.save(new RefreshToken(refreshToken, user));
 
-        sendMessage(response, "로그인에 성공하였습니다.");
+        response.setContentType("application/json");
+        response.getWriter().write("{\"token\":\"" + accessToken.replace("Bear ", "") + "\"}");
+        response.getWriter().flush();
     }
 
     @Override
@@ -74,15 +77,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        sendMessage(response, "로그인에 실패하였습니다.");
+        response.setContentType("text/plain;charset=UTF-8");
+        response.getWriter().write("로그인에 실패했습니다.");
+        response.getWriter().flush();
     }
 
-    private void sendMessage(HttpServletResponse res, String message) throws IOException {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        res.setContentType("application/json;charset=UTF-8");
-        String jsonResponse = objectMapper.writeValueAsString(Map.of("statusCode", res.getStatus(), "msg", message));
-
-        res.getWriter().write(jsonResponse);
-    }
 }

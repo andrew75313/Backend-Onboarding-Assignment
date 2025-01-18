@@ -29,15 +29,4 @@ public class UserController {
 
     }
 
-    @PostMapping("/sign")
-    public ResponseEntity<SignResponseDto> login(@Valid @RequestBody SignRequestDto requestDto) {
-
-        SignResponseDto responseDto = userService.signin(requestDto);
-
-        return ResponseEntity.ok(responseDto);
-
-    }
-
-
-
 }
