@@ -1,8 +1,10 @@
 package com.sparta.backendonboardingassignment.domain.users.entity;
 
+import com.sparta.backendonboardingassignment.domain.users.dto.SignupRequestDto;
 import com.sparta.backendonboardingassignment.global.entity.Timestamped;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 public class User extends Timestamped {
 
     @Id
