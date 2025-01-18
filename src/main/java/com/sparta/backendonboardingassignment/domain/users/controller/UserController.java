@@ -1,6 +1,8 @@
 package com.sparta.backendonboardingassignment.domain.users.controller;
 
+import com.sparta.backendonboardingassignment.domain.users.dto.RolenameResponseDto;
 import com.sparta.backendonboardingassignment.domain.users.dto.SignupRequestDto;
+import com.sparta.backendonboardingassignment.domain.users.dto.SignupResponseDto;
 import com.sparta.backendonboardingassignment.domain.users.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +22,11 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> createUser(@RequestBody @Valid SignupRequestDto requestDto) {
+    public ResponseEntity<SignupResponseDto<RolenameResponseDto>> createUser(@RequestBody @Valid SignupRequestDto requestDto) {
 
-        userService.signup(requestDto);
+        SignupResponseDto responseDto = userService.signup(requestDto);
 
-        return ResponseEntity.ok(new MessageResponse(201, "회원 가입 성공 \uD83C\uDF20"));
+        return ResponseEntity.ok(responseDto);
 
     }
 
