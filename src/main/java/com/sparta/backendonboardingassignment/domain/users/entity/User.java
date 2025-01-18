@@ -1,5 +1,6 @@
 package com.sparta.backendonboardingassignment.domain.users.entity;
 
+import com.sparta.backendonboardingassignment.domain.users.dto.SignupRequestDto;
 import com.sparta.backendonboardingassignment.global.entity.Timestamped;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,5 +29,11 @@ public class User extends Timestamped {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
+
+    public User(SignupRequestDto requestDto) {
+        this.username = requestDto.getUsername();
+        this.password = requestDto.getPassword();
+        this.nickname = requestDto.getNickname();
+    }
 
 }
