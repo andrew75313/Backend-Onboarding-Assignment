@@ -1,12 +1,12 @@
 package com.sparta.backendonboardingassignment.domain.users.entity;
 
-public enum UserRoleEnum {
+public enum UsersRoleEnum {
     USER(Authority.USER),  // 사용자 권한
     MANAGER(Authority.MANAGER);  // 관리자 권한
 
     private final String authority;
 
-    UserRoleEnum(String authority) {
+    UsersRoleEnum(String authority) {
         this.authority = authority;
     }
 

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class User extends Timestamped {
+public class Users extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,6 @@ public class User extends Timestamped {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRoleEnum role;
+    private UsersRoleEnum role;
 
 }
