@@ -3,8 +3,6 @@ package com.sparta.backendonboardingassignment.global.security;
 import com.sparta.backendonboardingassignment.domain.tokens.entity.RefreshToken;
 import com.sparta.backendonboardingassignment.domain.tokens.repository.RefreshTokenRepository;
 import com.sparta.backendonboardingassignment.domain.users.dto.SignRequestDto;
-import com.sparta.backendonboardingassignment.domain.users.dto.SignResponseDto;
-import com.sparta.backendonboardingassignment.domain.users.dto.SignupRequestDto;
 import com.sparta.backendonboardingassignment.domain.users.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.backendonboardingassignment.global.config.JwtConfig;
@@ -12,14 +10,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
-import java.util.Map;
 
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
