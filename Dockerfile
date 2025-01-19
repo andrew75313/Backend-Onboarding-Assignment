@@ -1,32 +1,34 @@
-# Step 1: Gradle 빌드 환경으로 사용할 공식 Gradle 이미지를 기반으로 설정
+# Step 1: Use an official Gradle image as a build environment
 FROM gradle:8.1.1-jdk17 AS build
 
-# 빌드 작업 디렉토리 설정
+# Set the working directory
 WORKDIR /app
 
-# Gradle 빌드에 필요한 파일들을 복사
+# Copy the Gradle wrapper and build files
 COPY gradlew .
 COPY gradle /app/gradle
 COPY build.gradle settings.gradle /app/
+
+# Copy the source code
 COPY src /app/src
 
-# Gradle Wrapper 실행 권한 부여
+# Grant execution permissions to the Gradle wrapper
 RUN chmod +x gradlew
 
-# 애플리케이션 빌드 (테스트 포함)
-RUN ./gradlew clean build
+# Build the application, excluding tests
+RUN ./gradlew clean build --exclude-task test
 
-# Step 2: 실행 환경으로 사용할 가벼운 JDK 이미지 설정
-FROM eclipse-temurin:17-jdk-alpine
+# Step 2: Use a slim OpenJDK image for runtime
+FROM openjdk:17-jdk-slim
 
-# 애플리케이션 실행 디렉토리 설정
+# Set the working directory
 WORKDIR /app
 
-# 빌드 단계에서 생성된 JAR 파일을 실행 환경으로 복사
+# Copy the built JAR file from the build stage
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# 애플리케이션에서 사용할 포트 노출
+# Expose the application port
 EXPOSE 8080
 
-# 컨테이너 시작 시 실행될 명령어 정의
+# Define the entry point for the container
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
