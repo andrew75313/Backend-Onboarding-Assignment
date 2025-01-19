@@ -64,7 +64,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         refreshTokenRepository.save(new RefreshToken(refreshToken, user));
 
         response.setContentType("application/json");
-        response.getWriter().write("{\"token\":\"" + accessToken.replace("Bear ", "") + "\"}");
+        response.getWriter().write("{\"token\":\"" + accessToken.replace("Bearer ", "") + "\"}");
         response.getWriter().flush();
     }
 
