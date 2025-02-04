@@ -1,3 +1,16 @@
+### January 19, 2025
+# API 명세서
+
+| **API**                     | **Method** | **Request URL**     | **Request Body**                                                                 | **Response Body**                                                                                                                       | **Status Code**   | **Description**                                       |
+|-----------------------------|------------|---------------------|-----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------------|-------------------------------------------------------|
+| **회원가입**                 | POST       | `/signup`           | ```json<br>{<br>"username": "JIN HO",<br>"password": "12341234",<br>"nickname": "Mentos"<br>}``` | ```json<br>{<br>"username": "JIN HO",<br>"nickname": "Mentos",<br>"authorities": [{ "authorityName": "ROLE_USER" }]<br>}```            | 200 OK            | 사용자 회원가입 처리                                |
+| **로그인**                   | POST       | `/sign`             | ```json<br>{<br>"username": "JIN HO",<br>"password": "12341234"<br>}```             | ```json<br>{<br>"token": "eKDIkdfjoakIdkfjpekdkcjdkoIOdjOKJDFOlLDKFJKL"<br>}```                                                        | 200 OK            | 로그인 후 JWT 토큰 발급                             |
+| **로그인 실패**               | POST       | `/sign`             | ```json<br>{<br>"username": "incorrect",<br>"password": "wrong"<br>}```             | ```json<br>{<br>"message": "Invalid username or password"<br>}```                                                                      | 401 Unauthorized  | 잘못된 아이디 또는 비밀번호로 로그인 실패 시 응답  |
+| **Access Token 재발급**      | POST       | `/token/refresh`    | ```json<br>{<br>"refreshToken": "validRefreshToken"<br>}```                         | ```json<br>{<br>"token": "newAccessToken"<br>}```                                                                                         | 200 OK            | 유효한 refresh token으로 access token 재발급       |
+| **Access Token 재발급 실패** | POST       | `/token/refresh`    | ```json<br>{<br>"refreshToken": "invalidRefreshToken"<br>}```                       | ```json<br>{<br>"message": "Please login again"<br>}```                                                                                  | 400 Bad Request   | 만료된 또는 잘못된 refresh token으로 재발급 실패   |
+
+---
+###  January 19, 2025
 # 한 달 인턴 8기 - (Java) 백엔드 온보딩 과제
 
 ## Overview
